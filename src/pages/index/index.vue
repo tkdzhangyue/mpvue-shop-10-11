@@ -1,98 +1,115 @@
 <template>
-  <div @click="clickHandle" class="main-page">
-      <img src="http://127.0.0.1:5000/image/da635b76-ebfb-11e9-9cf0-4ccc6a382b99" alt="">
-
-  </div>
+    <div @click="clickHandle" class="main-page">
+        <!--        <img src="http://127.0.0.1:5000/image/da635b76-ebfb-11e9-9cf0-4ccc6a382b99" alt="">-->
+        <div v-for="(image, index) in images" :key="index">
+            <img :src="'127.0.0.1:5000/image/' + image.uuid" alt="" class="main-pic">
+        </div>
+    </div>
 </template>
 
 <script>
-import card from '@/components/card'
+  import card from '@/components/card'
+  import {get} from '../../utils'
 
-export default {
-  data () {
-    return {
-      motto: 'Hello miniprograme',
-      userInfo: {
-        nickName: 'mpvue',
-        avatarUrl: 'http://mpvue.com/assets/logo.png'
-      }
-    }
-  },
+  export default {
+    onShow () {
 
-  components: {
-    card
-  },
-
-  methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      if (mpvuePlatform === 'wx') {
-        mpvue.switchTab({ url })
-      } else {
-        mpvue.navigateTo({ url })
+    },
+    mounted () {
+      this.getData()
+    },
+    data () {
+      return {
+        images: [],
+        motto: 'Hello miniprograme',
+        userInfo: {
+          nickName: 'mpvue',
+          avatarUrl: 'http://mpvue.com/assets/logo.png'
+        }
       }
     },
-    clickHandle (ev) {
-      console.log('clickHandle:', ev)
-      // throw {message: 'custom test'}
-    }
-  },
 
-  created () {
-    // let app = getApp()
+    components: {
+      card
+    },
+
+    methods: {
+      async getData () {
+        const data = await get('/index')
+        this.images = data.images
+      },
+      bindViewTap () {
+        const url = '../logs/main'
+        if (mpvuePlatform === 'wx') {
+          mpvue.switchTab({url})
+        } else {
+          mpvue.navigateTo({url})
+        }
+      },
+      clickHandle (ev) {
+        console.log('clickHandle:', ev)
+        // throw {message: 'custom test'}
+      }
+    },
+
+    created () {
+      // let app = getApp()
+    }
   }
-}
 </script>
 
 <style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+    .userinfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
+    .userinfo-avatar {
+        width: 128rpx;
+        height: 128rpx;
+        margin: 20rpx;
+        border-radius: 50%;
+    }
 
-.userinfo-nickname {
-  color: #aaa;
-}
+    .userinfo-nickname {
+        color: #aaa;
+    }
 
-.usermotto {
-  margin-top: 150px;
-}
+    .usermotto {
+        margin-top: 150px;
+    }
 
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-.all{
-  width:7.5rem;
-  height:1rem;
-  background-color:blue;
-}
-.all:after{
-  display:block;
-  content:'';
-  clear:both;
-}
-.left{
-  float:left;
-  width:3rem;
-  height:1rem;
-  background-color:red;
-}
+    .form-control {
+        display: block;
+        padding: 0 12px;
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+    }
 
-.right{
-  float:left;
-  width:4.5rem;
-  height:1rem;
-  background-color:green;
-}
+    .all {
+        width: 7.5rem;
+        height: 1rem;
+        background-color: blue;
+    }
+
+    .all:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+
+    .left {
+        float: left;
+        width: 3rem;
+        height: 1rem;
+        background-color: red;
+    }
+
+    .right {
+        float: left;
+        width: 4.5rem;
+        height: 1rem;
+        background-color: green;
+    }
 </style>
