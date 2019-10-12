@@ -1,15 +1,15 @@
 <template>
     <div @click="clickHandle" class="main-page">
         <!--        <img src="http://127.0.0.1:5000/image/da635b76-ebfb-11e9-9cf0-4ccc6a382b99" alt="">-->
-        <div v-for="(image, index) in images" :key="index">
-            <img :src="'127.0.0.1:5000/image/' + image.uuid" alt="" class="main-pic">
+        <div v-for="(goods, index) in allGoods" :key="index" class="goods-div" @click="go_to_detail(goods.goodsId)">
+            <img :src="goods.url" alt="" class="goods-pic">
         </div>
     </div>
 </template>
 
 <script>
   import card from '@/components/card'
-  import {get} from '../../utils'
+  import {get, host} from '../../utils'
 
   export default {
     onShow () {
@@ -20,7 +20,7 @@
     },
     data () {
       return {
-        images: [],
+        allGoods: [],
         motto: 'Hello miniprograme',
         userInfo: {
           nickName: 'mpvue',
@@ -35,8 +35,12 @@
 
     methods: {
       async getData () {
-        const data = await get('/index')
-        this.images = data.images
+        const data = await get('/')
+        for (const good of data) {
+          const url = host + '/image/' + good.images[0].uuid
+          const goodsId = good.uuid
+          this.allGoods.push({url: url, goodsId: goodsId})
+        }
       },
       bindViewTap () {
         const url = '../logs/main'
@@ -49,6 +53,11 @@
       clickHandle (ev) {
         console.log('clickHandle:', ev)
         // throw {message: 'custom test'}
+      },
+      go_to_detail (goodsId) {
+        wx.navigateTo({
+          url: '/pages/detail/main?id=' + goodsId
+        })
       }
     },
 
@@ -59,57 +68,24 @@
 </script>
 
 <style scoped>
-    .userinfo {
+    .main-page {
+        width: 100%;
+        padding: 0 10rpx;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: wrap;
     }
 
-    .userinfo-avatar {
-        width: 128rpx;
-        height: 128rpx;
-        margin: 20rpx;
-        border-radius: 50%;
+    .goods-div {
+        width: 50%;
+        justify-content: center;
+        display: flex;
     }
 
-    .userinfo-nickname {
-        color: #aaa;
-    }
+    .goods-pic {
+        max-width: 100%;
+        max-height: 100%;
+        width: 300rpx;
+        height: 300rpx;;
 
-    .usermotto {
-        margin-top: 150px;
-    }
-
-    .form-control {
-        display: block;
-        padding: 0 12px;
-        margin-bottom: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .all {
-        width: 7.5rem;
-        height: 1rem;
-        background-color: blue;
-    }
-
-    .all:after {
-        display: block;
-        content: '';
-        clear: both;
-    }
-
-    .left {
-        float: left;
-        width: 3rem;
-        height: 1rem;
-        background-color: red;
-    }
-
-    .right {
-        float: left;
-        width: 4.5rem;
-        height: 1rem;
-        background-color: green;
     }
 </style>
