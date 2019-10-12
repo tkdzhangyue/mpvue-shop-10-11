@@ -60,10 +60,10 @@
         })
       }
     },
-
     created () {
       // let app = getApp()
     }
+
   }
 </script>
 
