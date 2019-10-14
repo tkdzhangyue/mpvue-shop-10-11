@@ -17,6 +17,7 @@
     },
     mounted () {
       this.getData()
+      this.doLogin()
     },
     data () {
       return {
@@ -28,11 +29,9 @@
         }
       }
     },
-
     components: {
       card
     },
-
     methods: {
       async getData () {
         const data = await get('/')
@@ -58,6 +57,27 @@
         wx.navigateTo({
           url: '/pages/detail/main?id=' + goodsId
         })
+      },
+      doLogin () {
+        wx.login({
+          success (res) {
+            if (res.code) {
+              console.log(res)
+              wx.request({
+                url: host + '/login/' + res.code,
+                success: (res) => {
+                  const openid = res.data.openid
+                  const sessionKey = res.data.session_key
+                  wx.setStorageSync('openid', openid)
+                  wx.setStorageSync('sessionKey', sessionKey)
+                  console.log('openid = ', openid)
+                }
+              })
+            } else {
+              console.log('login error' + res.errMsg)
+            }
+          }
+        })
       }
     },
     created () {
@@ -70,7 +90,7 @@
 <style scoped>
     .main-page {
         width: 100%;
-        padding: 0 10rpx;
+        padding: 0 10 rpx;
         display: flex;
         flex-wrap: wrap;
     }
@@ -84,8 +104,8 @@
     .goods-pic {
         max-width: 100%;
         max-height: 100%;
-        width: 300rpx;
-        height: 300rpx;
+        width: 300 rpx;
+        height: 300 rpx;
 
     }
 </style>

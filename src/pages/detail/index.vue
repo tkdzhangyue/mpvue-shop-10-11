@@ -5,11 +5,12 @@
                 <img alt="" :src="image" class="detail_pic">
             </div>
         </div>
-      <div class="bottom-btn">
-        <button class="btn-cart" @click="" >cart</button>
-        <button class="btn-favorite" @click="">favorite</button>
-        <button class="btn-buy" @click="buyNow(goodsId)">马上购买</button>
-      </div>
+        <div class="bottom-btn">
+            <!--            <button class="btn-cart" @click="">cart</button>-->
+            <!--            <button class="btn-favorite" @click="">favorite</button>-->
+            <button class="btn-buy" @click="buyNow(goodsId)">立即购买</button>
+            <button class="btn-cart" @click="goToCart(goodsId)">加入购物车</button>
+        </div>
     </div>
 </template>
 
@@ -50,6 +51,9 @@
       },
       buyNow (goodsId) {
         // todo
+      },
+      goToCart (goodsId) {
+
       }
     },
     computed: {},
@@ -67,11 +71,28 @@
     .detail_page {
         height: 100%;
     }
-    .bottom-btn {
-      height: 48px;
-      display: flex;
-      flex-direction: row;
+    .pic_div {
+        display: flex;
+        justify-content: center;
     }
+    .bottom-btn {
+        height: 48px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .btn-cart {
+        background-color: #FF7CA7D2;
+        border-radius: 0;
+        width: 50%;
+    }
+    .btn-buy {
+        background-color: #21ffa88b;
+        border-radius: 0;
+        width: 50%
+    }
+
     .details-images {
         overflow: auto;
     }

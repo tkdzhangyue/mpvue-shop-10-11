@@ -45,16 +45,21 @@ function request (url, method, data, header = {}) {
       success: function (res) {
         wx.hideLoading()
         resolve(res.data)
-      }
+      },
       // fail: function (error) {
       //   wx.hideLoading()
       //   reject(false)
       // },
-      // complete: function () {
-      //   wx.hideLoading()
-      // }
+      complete: function () {
+        wx.hideLoading()
+      }
     })
   })
+}
+
+export function toLogin () {
+  const userInfo = wx.getStorageSync('userInfo')
+  return userInfo
 }
 
 export function get (url, data) {
