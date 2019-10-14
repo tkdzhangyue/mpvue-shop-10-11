@@ -21,6 +21,7 @@
     },
     data () {
       return {
+        openid: '',
         allGoods: [],
         motto: 'Hello miniprograme',
         userInfo: {
@@ -67,6 +68,7 @@
                 url: host + '/login/' + res.code,
                 success: (res) => {
                   const openid = res.data.openid
+                  this.openid = openid
                   const sessionKey = res.data.session_key
                   wx.setStorageSync('openid', openid)
                   wx.setStorageSync('sessionKey', sessionKey)

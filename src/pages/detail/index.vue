@@ -15,7 +15,7 @@
 </template>
 
 <script>
-  import {get, host} from '../../utils'
+  import {get, host, post} from '../../utils'
 
   export default {
     created () {
@@ -27,11 +27,13 @@
     name: 'detail',
     mounted () {
       this.goodsId = this.$root.$mp.query.id
+      this.openid = this.$root.$mp.query.openid
       this.getDetail()
       this.pagesDivHeight = wx.getSystemInfoSync().windowHeight - 48
     },
     data () {
       return {
+        openid: '',
         pagesDivHeight: 600,
         systemInfo: {},
         goodsId: '',
@@ -52,8 +54,12 @@
       buyNow (goodsId) {
         // todo
       },
-      goToCart (goodsId) {
-
+      async goToCart (goodsId) {
+        const data = await post('/cart/', {
+          'goodsId': goodsId,
+          'openid': this.openid
+        })
+        console('post return ', data)
       }
     },
     computed: {},
@@ -71,10 +77,12 @@
     .detail_page {
         height: 100%;
     }
+
     .pic_div {
         display: flex;
         justify-content: center;
     }
+
     .bottom-btn {
         height: 48px;
         width: 100%;
@@ -87,6 +95,7 @@
         border-radius: 0;
         width: 50%;
     }
+
     .btn-buy {
         background-color: #21ffa88b;
         border-radius: 0;
