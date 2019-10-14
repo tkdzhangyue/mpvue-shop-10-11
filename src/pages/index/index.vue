@@ -85,7 +85,7 @@
         max-width: 100%;
         max-height: 100%;
         width: 300rpx;
-        height: 300rpx;;
+        height: 300rpx;
 
     }
 </style>

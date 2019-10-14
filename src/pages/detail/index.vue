@@ -5,7 +5,11 @@
                 <img alt="" :src="image" class="detail_pic">
             </div>
         </div>
+      <div class="bottom-btn">
+        <button class="btn-cart" @click="" >cart</button>
+        <button class="btn-favorite" @click="">favorite</button>
         <button class="btn-buy" @click="buyNow(goodsId)">马上购买</button>
+      </div>
     </div>
 </template>
 
@@ -63,7 +67,11 @@
     .detail_page {
         height: 100%;
     }
-
+    .bottom-btn {
+      height: 48px;
+      display: flex;
+      flex-direction: row;
+    }
     .details-images {
         overflow: auto;
     }
