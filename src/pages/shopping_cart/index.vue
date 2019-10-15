@@ -1,19 +1,24 @@
 <template>
     <div class="cart_page">
-        <div class="goods_in_cart" v-for="(goods, index) in data.cartInfo">
-
+        <div class="goods_in_cart" v-for="(goods, index) in cartInfo"
+             :style="{backgroundColor: index%2===0? color1: color2}">
+            <div class="goods_pic">
+                <img alt="" :src="goods.image">
+            </div>
+            <div class="goods-count">
+                <p>{{goods.count}}</p>
+            </div>
         </div>
     </div>
 
 </template>
 
 <script>
-  import {get} from '../../utils'
+  import {color1, color2, get, host} from '../../utils'
 
   export default {
     name: 'shopping_cart',
     created () {
-      this.data = {openid: '', cartInfo: []}
     },
     onLoad () {
       wx.setNavigationBarTitle({
@@ -25,6 +30,8 @@
     },
     data () {
       return {
+        color1: color1,
+        color2: color2,
         openid: '',
         cartInfo: []
       }
@@ -34,7 +41,7 @@
     },
     methods: {
       init () {
-        this.data.cartInfo = []
+        this.cartInfo = []
         const that = this
         try {
           const openid = wx.getStorageSync('openid')
@@ -46,7 +53,10 @@
         }
       },
       async getCart (openid) {
-        this.data.cartInfo = await get('/cart/', {'openid': openid})
+        const cart = await get('/cart/', {'openid': openid})
+        for (const goods of cart) {
+          this.cartInfo.push({image: host + '/image/' + goods.image, count: goods.count})
+        }
       }
     }
   }
@@ -60,6 +70,12 @@
     .goods_in_cart {
         height: 100px;
         width: 100%;
-        color: aqua;
+        padding: 10px;
+    }
+
+    .goods_pic {
+        width: 80px;
+        height: 80px;
+
     }
 </style>

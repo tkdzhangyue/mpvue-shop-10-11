@@ -27,7 +27,6 @@
     name: 'detail',
     mounted () {
       this.goodsId = this.$root.$mp.query.id
-      this.openid = this.$root.$mp.query.openid
       this.getDetail()
       this.pagesDivHeight = wx.getSystemInfoSync().windowHeight - 48
     },
@@ -56,10 +55,10 @@
       },
       async goToCart (goodsId) {
         const data = await post('/cart/', {
-          'goodsId': goodsId,
-          'openid': this.openid
+          'addedGoods': goodsId,
+          'openid': wx.getStorageSync('openid')
         })
-        console('post return ', data)
+        console.log('post return ', data)
       }
     },
     computed: {},

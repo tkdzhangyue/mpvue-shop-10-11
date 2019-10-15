@@ -37,8 +37,8 @@
       async getData () {
         const data = await get('/')
         for (const good of data) {
-          const url = host + '/image/' + good.images[0].uuid
-          const goodsId = good.uuid
+          const url = host + '/image/' + good.main_img[2].uuid
+          const goodsId = good.goods_id
           this.allGoods.push({url: url, goodsId: goodsId})
         }
       },
@@ -68,7 +68,6 @@
                 url: host + '/login/' + res.code,
                 success: (res) => {
                   const openid = res.data.openid
-                  this.openid = openid
                   const sessionKey = res.data.session_key
                   wx.setStorageSync('openid', openid)
                   wx.setStorageSync('sessionKey', sessionKey)
@@ -99,6 +98,7 @@
 
     .goods-div {
         width: 50%;
+        height: 150px;
         justify-content: center;
         display: flex;
     }
@@ -106,8 +106,8 @@
     .goods-pic {
         max-width: 100%;
         max-height: 100%;
-        width: 300 rpx;
-        height: 300 rpx;
+        width: 150px;
+        height: 150px;
 
     }
 </style>
