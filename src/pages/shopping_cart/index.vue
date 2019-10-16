@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="buy_now">
-      <div class="total_price" :style="{backgroundColor: color1, color: color3}">{{'¥'+27}}</div>
+      <div class="total_price" :style="{backgroundColor: color1, color: color3}">{{'¥'+ total_price}}</div>
       <div class="btn-buy" :style="{backgroundColor: color2, color: color4}">去结算</div>
     </div>
   </div>
@@ -55,6 +55,7 @@
     },
     data () {
       return {
+        total_price: 0,
         color1: color1,
         color2: color2,
         color3: color3,
@@ -83,13 +84,16 @@
       },
       async getCart (openid) {
         const cart = await get('/cart/', {'openid': openid})
+        this.total_price = 0
         for (const goods of cart) {
           this.cartInfo.push({
             image: host + '/image/' + goods.image,
             count: goods.count,
-            title: '懒人常备小白鞋清洁增白剂',
-            price: 14.9
+            title: goods.title,
+            price: goods.price,
+            stock_num: goods.stock_num
           })
+          this.total_price += goods.price * goods.count
         }
       },
       btn_1_onclick () {
