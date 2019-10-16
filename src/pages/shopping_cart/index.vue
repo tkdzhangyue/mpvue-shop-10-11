@@ -1,25 +1,31 @@
 <template>
-  <div class="cart_page">
-    <div class="goods_in_cart" v-for="(goods, index) in cartInfo"
-         :style="{backgroundColor: index%2===0? color1: color2}">
-      <div class="goods_pic">
-        <img alt="" :src="goods.image">
-      </div>
-      <div class="goods-title">
-        <div class="title">
-          {{goods.title}}
+  <div>
+    <div class="cart_page" :style="{height: pagesDivHeight + 'px'}">
+      <div class="goods_in_cart" v-for="(goods, index) in cartInfo"
+           :style="{backgroundColor: index%2===0? color1: color2}">
+        <div class="goods_pic">
+          <img alt="" :src="goods.image">
         </div>
-        <div class="price_count">
-          <div class="price">{{'¥'+goods.price}}</div>
-          <div class="count-btn">
-            <div class="btn-border">
-              <div class="btn-1">-</div>
-              <div class="btn-2" :style="{color: index%2===0? color2: color1}">{{goods.count}}</div>
-              <div class="btn-3">+</div>
+        <div class="goods-title">
+          <div class="title" :style="{color: 'white'}">
+            {{goods.title}}
+          </div>
+          <div class="price_count">
+            <div class="price" :style="{color: index%2===0? color2: color1}">{{'¥'+goods.price}}</div>
+            <div class="count-btn">
+              <div class="btn-border">
+                <div class="btn-1">-</div>
+                <div class="btn-2" :style="{color: index%2===0? color2: color1}">{{goods.count}}</div>
+                <div class="btn-3">+</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="buy_now">
+      <div class="total_price" :style="{backgroundColor: color1}">{{'¥'+27}}</div>
+      <div class="btn-buy" :style="{backgroundColor: color2}">去结算</div>
     </div>
   </div>
 
@@ -45,11 +51,13 @@
         color1: color1,
         color2: color2,
         openid: '',
-        cartInfo: []
+        cartInfo: [],
+        pagesDivHeight: 400
       }
     },
     mounted () {
       this.init()
+      this.pagesDivHeight = wx.getSystemInfoSync().windowHeight - 48
     },
     methods: {
       init () {
@@ -148,5 +156,24 @@
     height: 30px;
     border: solid 1px white;
     line-height: 30px;
+  }
+
+  .buy_now {
+    height: 48px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .total_price {
+    text-align: center;
+    line-height: 48px;
+    width: 60%;
+  }
+
+  .btn-buy {
+    width: 40%;
+    text-align: center;
+    line-height: 48px;
   }
 </style>
