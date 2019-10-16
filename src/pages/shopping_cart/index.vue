@@ -32,7 +32,9 @@
     </div>
     <div class="buy_now">
       <div class="total_price" :style="{backgroundColor: color1, color: color3}">{{'¥'+ total_price}}</div>
-      <div class="btn-buy" :style="{backgroundColor: color2, color: color4}">去结算</div>
+      <div class="btn-buy" @click="buyAll"
+           :style="{backgroundColor: color2, color: color4}">去结算
+      </div>
     </div>
   </div>
 
@@ -47,10 +49,7 @@
     },
     onLoad () {
       wx.setNavigationBarTitle({
-        title: '购物车',
-        success: function (res) {
-          // success
-        }
+        title: '购物车'
       })
     },
     data () {
@@ -75,6 +74,7 @@
         const that = this
         try {
           const openid = wx.getStorageSync('openid')
+          this.openid = openid
           if (openid) {
             that.getCart(openid)
           }
@@ -91,7 +91,8 @@
             count: goods.count,
             title: goods.title,
             price: goods.price,
-            stock_num: goods.stock_num
+            stock_num: goods.stock_num,
+            goods_id: goods.goods_id
           })
           this.total_price += goods.price * goods.count
         }
@@ -104,6 +105,22 @@
       },
       btn_3_onclick () {
 
+      },
+      buyAll () {
+        const buy = []
+        for (const goods of this.cartInfo) {
+          buy.push({
+            'goods_id': goods.goods_id,
+            'count': goods.count,
+            'price': goods.price,
+            'image': goods.image,
+            'title': goods.title
+          })
+        }
+        wx.setStorageSync('buy', buy)
+        wx.navigateTo({
+          url: '/pages/buy/main?openid=' + this.openid
+        })
       }
     }
   }

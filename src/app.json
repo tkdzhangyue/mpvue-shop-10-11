@@ -4,7 +4,8 @@
     "pages/counter/main",
     "pages/detail/main",
     "pages/shopping_cart/main",
-    "pages/user_log/main"
+    "pages/user_log/main",
+    "pages/buy/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
