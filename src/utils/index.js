@@ -27,7 +27,7 @@ const host = 'http://127.0.0.1:5000'
 export const color1 = '#FF7CA7D2'
 export const color2 = '#21ffa88b'
 export const color3 = 'white'
-export const color4 = 'black'
+export const color4 = 'darkred'
 
 export {
   host

@@ -3,7 +3,7 @@
     <div class="address">
       <textarea v-model="userAddress" :style="{backgroundColor: color2,color:color4}"></textarea>
     </div>
-    <div class="goods-list" :style="{height: (windowHeight - 150) + 'px'}">
+    <div class="goods-list" :style="{height: (windowHeight - 162) + 'px'}">
       <div class="goods-div" v-for="(goods, index) in all_goods">
         <img :src="goods.image">
         <div class="goods-detail">
@@ -18,10 +18,10 @@
     </div>
     <div class="price-buy" :style="{backgroundColor: color2,color:color4}">
       <div class="price-div">
-        <div class="total-price">{{totalPrice}}</div>
+        <div class="total-price">{{'实付金额：'+totalPrice}}</div>
         <div class="postage">{{'运费：'+ postage}}</div>
       </div>
-      <div class="btn-pay">支付</div>
+      <div class="btn-pay" :style="{backgroundColor: color1, color: color3}">支付</div>
     </div>
   </div>
 </template>
@@ -110,8 +110,13 @@
 
   .goods-detail {
     width: calc(100% - 88px);
+    height: 100%;
     display: flex;
     flex-direction: row;
+  }
+
+  .goods-detail div {
+    text-align: center;
   }
 
   .title_price {
@@ -122,16 +127,13 @@
     width: 100%;
     height: 50%;
     text-align: center;
+    line-height: 40px;
   }
 
   .goods-count {
     width: 20%;
     text-align: center;
     line-height: 88px;
-  }
-
-  .postage {
-
   }
 
   .address textarea {
@@ -142,5 +144,35 @@
   .price-buy {
     height: 48px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .price-div {
+    width: 66%;
+
+  }
+
+  .total-price {
+    height: 60%;
+    padding-left: 15px;
+    vertical-align: middle;
+    line-height: 30px;
+    color: darkred;
+  }
+
+  .postage {
+    height: 40%;
+    padding-left: 15px;
+    vertical-align: top;
+    font-size: 90%;
+    color: darkgray;
+  }
+
+  .btn-pay {
+    width: 34%;
+    line-height: 50px;
+    text-align: center;
+    font-size: 110%;
   }
 </style>
