@@ -1,7 +1,8 @@
 <template>
   <div class="buy-page" :style="{height: windowHeight+'px'}">
-    <div class="address">
-      <textarea v-model="userAddress" :style="{backgroundColor: color2,color:color4}"></textarea>
+    <div class="address" @click="goToAddress()" :style="{backgroundColor: color1, color: color3}">
+      <!--      <textarea v-model="userAddress" :style="{backgroundColor: color2,color:color4}"></textarea>-->
+      {{userAddress}}
     </div>
     <div class="goods-list" :style="{height: (windowHeight - 162) + 'px'}">
       <div class="goods-div" v-for="(goods, index) in all_goods">
@@ -38,6 +39,7 @@
     },
     data () {
       return {
+        fromPage: 'cart',
         totalPrice: 0,
         postage: 10,
         color1: color1,
@@ -51,8 +53,9 @@
       }
     },
     mounted () {
+      this.fromPage = this.$root.$mp.query.from
       this.windowHeight = wx.getSystemInfoSync().windowHeight
-      this.openid = this.$root.$mp.query.openid
+      this.openid = wx.getStorageSync('openid')
       this.getUserAddress()
       this.all_goods = wx.getStorageSync('buy')
       this.getTotalPrice()
@@ -76,6 +79,13 @@
         for (const goods of this.all_goods) {
           this.totalPrice += goods.price * goods.count
         }
+      },
+      goToAddress () {
+        if (this.openid) {
+          wx.navigateTo({
+            url: '/pages/address/main?openid=' + this.openid
+          })
+        }
       }
     }
   }
@@ -89,6 +99,10 @@
   .address {
     height: 100px;
     width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-line;
+    padding-left: 20px;
   }
 
   .goods-list {
