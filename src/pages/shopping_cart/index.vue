@@ -47,6 +47,12 @@
     name: 'shopping_cart',
     created () {
     },
+    onShow () {
+      this.cartList = wx.getStorageSync('cartList')
+      this.openid = wx.getStorageSync('openid')
+      this.allGoods = wx.getStorageSync('allGoods')
+      this.getCart()
+    },
     onLoad () {
       wx.setNavigationBarTitle({
         title: '购物车'
@@ -61,30 +67,29 @@
         color4: color4,
         openid: '',
         cartInfo: [],
+        cartList: [],
+        allGoods: [],
         pagesDivHeight: 400
       }
     },
     mounted () {
-      this.init()
       this.pagesDivHeight = wx.getSystemInfoSync().windowHeight - 53
     },
     methods: {
-      init () {
-        this.cartInfo = []
-        const that = this
-        try {
-          this.openid = wx.getStorageSync('openid')
-          if (this.openid) {
-            that.getCart(this.openid)
-          }
-        } catch (e) {
-          console.log('getStorageSync openid error')
+      async getCart () {
+        if (this.cartList.length === 0) {
+          this.cartList = await get('/cart/', {'openid': this.openid})
         }
-      },
-      async getCart (openid) {
-        const cart = await get('/cart/', {'openid': openid})
         this.total_price = 0
-        for (const goods of cart) {
+        this.cartInfo = []
+        for (const goods of this.cartList) {
+          for (const item of this.allGoods) {
+            if (goods.goods_id === item.goodsId) {
+              goods.price = item.price
+              goods.stock_num = item.stock_num
+              goods.title = item.title
+            }
+          }
           this.cartInfo.push({
             image: host + '/image/' + goods.image,
             count: goods.count,

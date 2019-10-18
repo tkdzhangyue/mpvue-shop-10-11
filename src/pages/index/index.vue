@@ -1,5 +1,6 @@
 <template>
     <div @click="clickHandle" class="main-page">
+      <img :src="'https://s2.ax1x.com/2019/10/18/KZTWbn.jpg'">
         <!--        <img src="http://127.0.0.1:5000/image/da635b76-ebfb-11e9-9cf0-4ccc6a382b99" alt="">-->
         <div v-for="(goods, index) in allGoods" :key="index" class="goods-div" @click="go_to_detail(goods.goodsId)">
             <img :src="goods.url" alt="" class="goods-pic">
@@ -39,8 +40,16 @@
         for (const good of data) {
           const url = host + '/image/' + good.main_img[2].uuid
           const goodsId = good.goods_id
-          this.allGoods.push({url: url, goodsId: goodsId})
+          this.allGoods.push({
+            url: url,
+            goodsId: goodsId,
+            goods_id: goodsId,
+            price: good.price,
+            title: good.title,
+            stock_num: good.stock_num
+          })
         }
+        wx.setStorageSync('allGoods', this.allGoods)
       },
       bindViewTap () {
         const url = '../logs/main'
