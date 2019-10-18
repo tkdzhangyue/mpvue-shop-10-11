@@ -30,6 +30,7 @@
     },
     data () {
       return {
+        addressObject: {},
         name: '',
         tel: null,
         address1: '',
@@ -44,6 +45,10 @@
       }
     },
     mounted () {
+      this.addressObject = wx.getStorageSync('address')
+      this.name = this.addressObject.name
+      this.tel = this.addressObject.tel
+      this.address1 = this.addressObject.address
       this.openid = wx.getStorageSync('openid')
       this.windowHeight = wx.getSystemInfoSync().windowHeight
     },
@@ -63,11 +68,14 @@
         }
       },
       async updateUserAddress () {
-        await post('/address/', {
-          'name': this.name,
-          'tel': this.tel,
-          'address': this.address1
-        })
+        await post('/address/', JSON.stringify({
+          'openid': this.openid,
+          'address': {
+            'name': this.name + '',
+            'tel': this.tel.toString(),
+            'address': this.address1 + ''
+          }
+        }))
       }
 
     }

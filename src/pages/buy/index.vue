@@ -39,6 +39,8 @@
     },
     data () {
       return {
+        userAddressObject: {},
+        userAddress: '',
         fromPage: 'cart',
         totalPrice: 0,
         postage: 10,
@@ -47,7 +49,6 @@
         color3: color3,
         color4: color4,
         openid: '',
-        userAddress: '',
         all_goods: [],
         windowHeight: 600
       }
@@ -62,13 +63,14 @@
     },
     methods: {
       async getUserAddress () {
-        const addressList = await get('/address/', {'openid': this.openid})
-        if (addressList.length > 0) {
-          this.userAddress = addressList[addressList.length - 1]
+        const address = await get('/address/', {openid: this.openid})
+        this.userAddressObject = {
+          name: address.name,
+          tel: address.tel,
+          address: address.address
         }
-        if (this.userAddress.length < 10) {
-          this.userAddress = '收件人：\n收货电话：\n收货地址：\n'
-        }
+        wx.setStorageSync('address', this.userAddressObject)
+        this.userAddress = '收件人：' + this.userAddressObject.name + '\n收货电话：' + this.userAddressObject.tel + '\n收货地址：' + this.userAddressObject.address + '\n'
       },
       async setUserAddress (address) {
         await post('/address/', {'openid': this.openid, 'address': address.toString()})
@@ -183,7 +185,7 @@
   }
 
   .btn-pay {
-    width:50%;
+    width: 50%;
     line-height: 50px;
     text-align: center;
     font-size: 110%;
