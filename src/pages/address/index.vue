@@ -51,8 +51,9 @@
       btnOkOnClick () {
         if (this.name.length < 2 || this.tel.length < 6 || this.address1.length < 6) {
           wx.showToast({
-            title: '小仙女的地址不全',
-            duration: 2000
+            title: '地址不全',
+            icon: 'loading',
+            duration: 400
           })
         } else {
           this.updateUserAddress()

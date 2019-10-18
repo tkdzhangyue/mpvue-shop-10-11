@@ -163,8 +163,7 @@
   }
 
   .price-div {
-    width: 66%;
-
+    width: 50%;
   }
 
   .total-price {
@@ -184,7 +183,7 @@
   }
 
   .btn-pay {
-    width: 34%;
+    width:50%;
     line-height: 50px;
     text-align: center;
     font-size: 110%;

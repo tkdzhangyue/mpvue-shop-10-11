@@ -73,10 +73,9 @@
         this.cartInfo = []
         const that = this
         try {
-          const openid = wx.getStorageSync('openid')
-          this.openid = openid
-          if (openid) {
-            that.getCart(openid)
+          this.openid = wx.getStorageSync('openid')
+          if (this.openid) {
+            that.getCart(this.openid)
           }
         } catch (e) {
           console.log('getStorageSync openid error')
@@ -216,11 +215,11 @@
   .total_price {
     text-align: center;
     line-height: 48px;
-    width: 60%;
+    width: 50%;
   }
 
   .btn-buy {
-    width: 40%;
+    width: 50%;
     text-align: center;
     line-height: 48px;
   }
